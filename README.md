@@ -39,15 +39,17 @@ load('Mice.sub.rda')  # seurat object, with clustering labels and UMAP
 # combine TCR and scRNA-seq data
 Combined <-getCombinedDataSet(TCR,Mice.sub)
 
-# plot distributiopn of clonotype
-shinyClone(Combined)   # plot the distribution of the first clonotype on UMAP
+# use shinyClone to intuitively explore the distribution of clonotype
+shinyClone(Combined)  
 
 # infer trajectory
 Trajectory <- getClonotypeLineages(Combined,start.clus = NULL, end.clus = NULL, dist.method = 'simple', use.median = TRUE)
 
-# take a look at the infered lineage
-Trajectory@clonotype
-Trajectory@trajectoryParams   
+# access one of the inferred lienages
+lrtLineages(Trajectory)[[1]]
+
+# check the parameters used for lineage inference
+lrtParams(Trajectory) 
 
 # prepare input for clustering
 ClusterInput <- getClusteringInput(Trajectory)
