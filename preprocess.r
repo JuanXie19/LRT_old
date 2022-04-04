@@ -105,7 +105,7 @@ Mice.sub2 <-subset(Mouse.combined.sct_sub,idents=c(0,1,5,14,16,7,8,3,2,11,9))
 
 ## modify identities
 current.cluster.ids <-c(0:3,5,7:9,11,14,16)
-new.cluster.ids <-c('Tcmp','Tcmp','Th1','Th1','Tcmp','Pre_Th','Pre_Th','Th1','Th1_inter','Tcmp','Tcmp')
+new.cluster.ids <-c('Tcmp','Tcmp','Th1','Th1','Tcmp','Pre-Th1','Pre-Th1','Th1','Th1-inter','Tcmp','Tcmp')
 names(new.cluster.ids) <-levels(Mice.sub2)
 Mice.sub2 <-RenameIdents(Mice.sub2,new.cluster.ids)
 Mice.sub2$clusters <-Idents(Mice.sub2)
