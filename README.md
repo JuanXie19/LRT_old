@@ -43,7 +43,8 @@ Combined <-getCombinedDataSet(TCR,Mice.sub)
 shinyClone(Combined)  
 
 # infer trajectory
-Trajectory <- getClonotypeLineages(Combined,start.clus = NULL, end.clus = NULL, dist.method = 'simple', use.median = TRUE)
+## it is advised to specify the starting cluster, in this example data we choose 'Tcmp'
+Trajectory <- getClonotypeLineages(Combined,start.clus = 'Tcmp', end.clus = NULL, dist.method = 'simple', use.median = TRUE)
 
 # access one of the inferred lienages
 lrtLineages(Trajectory)[[1]]
@@ -51,11 +52,11 @@ lrtLineages(Trajectory)[[1]]
 # check the parameters used for lineage inference
 lrtParams(Trajectory) 
 
-# prepare input for clustering
-ClusterInput <- getClusteringInput(Trajectory)
+# prepare input for shinyClust
+G.df <- getShinyInput(Combined)
 
 #  lineage clustering analysis
-shinyClust(ClusterInput)
+shinyClust(Trajectory,G.df)
 
 ```
 
