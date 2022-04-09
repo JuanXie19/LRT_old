@@ -30,6 +30,7 @@
 #' @import dtwclust
 #' @import cluster
 #' @import TrajectoryUtils
+#' @import progress
 #'
 #' @examples
 #' TCR <-read.csv('C:/TCR-seq/Gang/GSE158896_RAW/combinedTCR_2cells.csv',header=T)
@@ -49,6 +50,17 @@ setMethod(f = 'getClonotypeLineages',
 	CLONE <- unique(CombinedDataSet@seurat$cdr3)
 	df <- list()
 	NAMES <-vector()
+	
+	## set up the progress bar
+
+	pb <- progress_bar$new(format = "(:spin) [:bar] :percent [Inferring lineage.Elapsed time: :elapsedfull || Estimated time remaining: :eta]",
+                       total = length(CLONE),
+                       complete = "=",   # Completion bar character
+                       incomplete = "-", # Incomplete bar character
+                       current = ">",    # Current bar character
+                       clear = FALSE,    # If TRUE, clears the bar when finish
+                       width = 100)      # Width of the progress bar	
+	
 	## median as center of cluster, and filter clusters with less than 3 cells
 	for (i in 1:length(CLONE)){
 		INDEX <- which(CombinedDataSet@seurat$cdr3==CLONE[i])   # 
@@ -73,18 +85,30 @@ setMethod(f = 'getClonotypeLineages',
 			
 		}#else if(dim(temp)[2]>1){
 			#print('too few cells')}
-		#else{print('too few cells')}   
+		#else{print('too few cells')} 
+		
+		# add the progress bar
+		pb$tick()
+		
 	}
+	
+	
 	df[sapply(df,is.null)] <- NULL
 	for (j in 1:length(df)){
 		NAMES[j] <- unique(df[[j]]$clone)
 	}
 	names(df) <-NAMES
 	
+	t <- lapply(df,function(x) x%>%group_split(Lineage)) # some MST may contain multiple lineages, here split
+	t <- unlist(t,recursive=FALSE)
+	t <- lapply(t,function(x) column_to_rownames(x, var = "Cluster"))	
+	temp <-lapply(t, function(x) x[,1:2])
+
+	
 	Params <-list(start.clus = start.clus, end.clus = end.clus, dist.method = dist.method, use.median = use.median)
 	
 		
-	TrajectoryData <- new('TrajectoryDataSet',lineages = df, clonotype = NAMES,trajectoryParams = Params)
+	TrajectoryData <- new('TrajectoryDataSet',lineages = temp, clonotype = NAMES,trajectoryParams = Params)
 	return(TrajectoryData)
 })
 

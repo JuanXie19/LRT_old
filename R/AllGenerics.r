@@ -56,3 +56,82 @@ setGeneric(
     }
 )
 
+
+#' @title prepare the input for shiny apps
+#' @name getShinyInput
+#'
+#' @param CombinedDataSet The \code{CombinedDataSet} object
+#'
+#' @export
+
+setGeneric(
+	name = "getShinyInput",
+	signature = 'CombinedDataSet',
+    def = function(CombinedDataSet,...) {
+        standardGeneric("getShinyInput")
+    }
+)
+
+#' @title extract the UMAP coordinates from CombinedDatSet
+#' @name reducedDim
+#'
+#' @param CombinedDataSet
+#'
+#' @export
+setGeneric(
+	name = "reducedDim",
+	signature = 'CombinedDataSet',
+    def = function(CombinedDataSet,...) {
+        standardGeneric("reducedDim")
+    }
+)
+
+#' @title extract the seurat cell cluster labels
+#' @name seuratClusterLabels
+#'
+#' @param CombinedDataSet
+#'
+#' @export
+setGeneric(
+	name = "seuratClusterLabels",
+	signature = 'CombinedDataSet',
+    def = function(CombinedDataSet,...) {
+        standardGeneric("seuratClusterLabels")
+    }
+)
+
+#' @title extract the TCR information fomr CombinedDataSet
+#' @name getTCRs
+#'
+#' @export
+setGeneric(
+	name = "getTCRs",
+	signature = 'CombinedDataSet',
+    def = function(CombinedDataSet,...) {
+        standardGeneric("getTCRs")
+    }
+)
+
+#' @title extract the inferred clonotype lineages 
+#' @name lrtLineages
+#'
+#' @export
+setGeneric(
+	name = "lrtLineages",
+	signature = 'TrajectoryDataSet',
+    def = function(TrajectoryDataSet,...) {
+        standardGeneric("lrtLineages")
+    }
+)
+
+#' @title extract the parameters used when estimating lineages 
+#' @name lrtParams
+#'
+#' @export
+setGeneric(
+	name = "lrtParams",
+	signature = 'TrajectoryDataSet',
+    def = function(TrajectoryDataSet,...) {
+        standardGeneric("lrtParams")
+    }
+)

@@ -1,77 +1,89 @@
-shinyClone <- function(CombinedDataSet =NULL){
+shinyClone <- function(G.df =NULL){
 
 # load libraries
 	library(Seurat)
 	library(dplyr)
+	library(DT)
 # extract needed information
+  if(FALSE){
 	UMAP1 <- CombinedDataSet@seurat@reductions$umap@cell.embeddings[,1]
 	UMAP2 <- CombinedDataSet@seurat@reductions$umap@cell.embeddings[,2]
 	cdr3 <- CombinedDataSet@seurat$cdr3
 	G <- CombinedDataSet@seurat$clusters
 	G.df <- data.frame(UMAP1,UMAP2,G,cdr3)
-		
-	CLONE <- unique(G.df$cdr3)
-	n <-length(CLONE)
+	}
 	
+	CLONES <- unique(G.df$cdr3)
+	n <-length(CLONES)
+	
+	## find each clonotype involve how many cells
+	
+	cdr3.df <- data.frame(rbind(table(G.df$cdr3,G.df$cell.type)))
+	cdr3.df$cell.num <- rowSums(cdr3.df)
+	cdr3.df$cluster.num <-apply(cdr3.df,1, function(x) sum(x>0)-1) # count how many clusters it spans
+	
+	library(shiny)
+
+
+
 	ui <-fluidPage(
-		titlePanel('Clonoal distribution on UMAP'),
-		sidebarLayout(
-		 sidebarPanel(
-		 numericInput(inputId = 'cloneIndex',label = strong('Clonotype Id'),value = 2),
-		 downloadButton('downloadPlot',label='Download Plot')
-		 ),
-		 mainPanel(
-			textOutput(outputId = 'desc'),
-			plotOutput(outputId = 'UMAP')
-			
-			
-		 )
+		fluidRow(
+			column(7,
+				DT::dataTableOutput('clonetable')),
+			column(5,
+				textOutput(outputId = 'desc'),
+				plotOutput('UMAP'),
+				downloadButton('downloadPlot',label = 'Download Plot'))
 		)
 	)
+
+server <-function(input,output,session){
+
+  output$clonetable = DT::renderDataTable(cdr3.df,server=FALSE,extensions = 'Buttons',options = list(
+										dom = 'Bfrtip',buttons = list('copy','print',list(extend = 'collection',buttons = c('csv','excel'),text='Download table')))
+  )
+  
+  
+  observe({
+    req(input$clonetable_rows_selected)
+    s = input$clonetable_rows_selected
+	CLONE <- rownames(cdr3.df)[s]
+	INDEX <- which(G.df$cdr3==CLONE)
+	G.df.highlight <- G.df[INDEX,]
+	## description of the plotted clonotype
+	output$desc <-renderText({	
+		paste('This clonotype consists of ',length(INDEX),'cells', 'spanning',length(unique(G.df.highlight$cell.type)),'cluster/clusters')	
+	})
 	
-	server <- function(input,output){
-		cloneInd <- reactive({
-			req(input$cloneIndex)
-			validate(need (input$cloneIndex>0 &input$cloneIndex <=length(CLONE),'Error:invalid range of clonotype index.The index should be greater than 0 and not larger than the number of unique clonotype'))
-			validate(need(is.numeric(input$cloneIndex),'Error: cloneIndex should be a integer'))		
-			INDEX <-which(G.df$cdr3 ==CLONE[input$cloneIndex])
-			return(INDEX)
-		})
-		
-		## description of the plotted clonotype
-		output$desc <-renderText({
-			G.df.highlight <- G.df[cloneInd(),]
-			paste('This clonotype consists of ',length(cloneInd()),'cells','spanning',length(unique(G.df.highlight$G)),'cluster/clusters')
-		})
-		
-		## plot the distribution
-		plotUMAP <-function(){
-			if(length(cloneInd())<3){
-				print('too few cells')
-			}
-			
-			G.df.highlight <- G.df[cloneInd(),]
-			
-			ggplot(G.df,aes(UMAP1,UMAP2,color=G))+geom_point(alpha=0.4,shape=1,size=0.6)+
-				geom_point(data=G.df.highlight,aes(UMAP1,UMAP2),size=2,shape=17)+
-				theme_bw()+labs(title=CLONE[cloneInd()])
-		
-		}
-		
-		output$UMAP <-renderPlot({
-			print(plotUMAP())
-		})
-		output$downloadPlot <-downloadHandler(
-			filename = function(){
-			paste(CLONE[cloneInd()],'_UMAP.pdf',sep='')},
-			content = function(file){
+	plotUMAP <- function(){
+		  ggplot(G.df,aes(UMAP1,UMAP2,color=cell.type))+geom_point(alpha=0.4,shape=1,size=0.6)+
+          geom_point(data=G.df.highlight,aes(UMAP1,UMAP2),size=2,shape=17)+
+          theme_bw()+labs(title=CLONE)	
+	}
+	
+	
+	
+    output$UMAP <-renderPlot({
+      if (length(s)){
+		print(plotUMAP())
+	  }  
+    })
+	
+	output$downloadPlot <-downloadHandler(
+		filename = function(){
+		paste(CLONE,'_UMAP.pdf',sep='')},
+		content = function(file){
 			 pdf(file)
 			 print(plotUMAP())
-			 dev.off()
-			}
-		)
-		
-	}
-	## create shiny object
-	shinyApp(ui = ui, server = server)
+			 dev.off()	
+	})
+    
+  })
+  
+  
+  
+}
+
+## create shiny object
+shinyApp(ui = ui, server = server)
 }
