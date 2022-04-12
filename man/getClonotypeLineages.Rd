@@ -56,7 +56,7 @@ Once the MST is known, lineages are identified in
   method, but this is not recommended.
 }
 \examples{
-TCR <-read.csv('C:/TCR-seq/Gang/GSE158896_RAW/combinedTCR_2cells.csv',header=T)
+TCR <-read.csv('/PATH/TO/YOUR/scTCR-seqData/',header=T)
 load('Mice.sub.rda')
 Combined <- getCombinedDataSet(TCR,Mice.sub)
 Trajectory <- getClonotypeLineages(Combined,start.clus = NULL, end.clus = NULL, dist.method = 'simple', use.median = TRUE)

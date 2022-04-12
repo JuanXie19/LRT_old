@@ -3,7 +3,7 @@
 \name{seuratClusterLabels}
 \alias{seuratClusterLabels}
 \alias{seuratClusterLabels,CombinedDataSet-method}
-\title{extract the seurat cell cluster labels}
+\title{extract the seurat cell cluster labels from CombinedDataSet}
 \usage{
 seuratClusterLabels(CombinedDataSet, ...)
 
@@ -13,5 +13,5 @@ seuratClusterLabels(CombinedDataSet, ...)
 \item{CombinedDataSet}{}
 }
 \description{
-extract the seurat cell cluster labels
+extract the seurat cell cluster labels from CombinedDataSet
 }
