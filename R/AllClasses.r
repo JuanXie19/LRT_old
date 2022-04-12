@@ -50,21 +50,3 @@ setClass(
 		trajectoryParams = 'list')		
 )
 
-#' @title Class \code{ClusterInput}
-#'
-#' @description This \code{ClusterInput} class holds the inferred clonotype lineages from \code{getClonotypeLineages}, which can be used as input for the following clustering analysis.
-#' @slot lineages. A list of lineages corresponding the the clonotypes
-#'
-#' @import Seurat
-#' @import slingshot
-#' @import dplyr
-#' @examples
-#' # TrajectoryDataSet objects are generated from \code{getClonotypeLineages}
-
-#' @export
-
-setClass(
-	'ClusterInput',
-	slots = c(
-		lineages = 'list')		
-)

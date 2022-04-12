@@ -41,21 +41,6 @@ setGeneric(
     }
 )
 
-#' @title prepare the input for \code{clustLineages}
-#' @name getClusteringInput
-#'
-#' @param TrajectoryDataSet The \code{TrajectoryDataSet} object obtained from \code{getClonotypeLineages}
-#' 
-#' @export
-
-setGeneric(
-    name = "getClusteringInput",
-	signature = 'TrajectoryDataSet',
-    def = function(TrajectoryDataSet,...) {
-        standardGeneric("getClusteringInput")
-    }
-)
-
 
 #' @title prepare the input for shiny apps
 #' @name getShinyInput
@@ -86,7 +71,7 @@ setGeneric(
     }
 )
 
-#' @title extract the seurat cell cluster labels
+#' @title extract the seurat cell cluster labels from CombinedDataSet
 #' @name seuratClusterLabels
 #'
 #' @param CombinedDataSet
