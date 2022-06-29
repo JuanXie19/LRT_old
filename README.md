@@ -18,7 +18,7 @@ devtools::install_github('JuanXie19/LRT')
 https://juanxie19.github.io/vignette.html
 ## Requirements
 
-The `LRT` package has multiple dependencies, including `slingshot`, `tidyverse`,`Seurat` and `TrajectoryUtils`
+The `LRT` package has multiple dependencies, including `slingshot`, `tibble`,`Seurat`,`dtwclust`,`ggplot2`, and so on. For complete list of dependencies, please refer to the DESCRIPTION file of the package.
 
 ## Usage
 
