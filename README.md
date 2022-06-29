@@ -27,10 +27,6 @@ Below are `R` commands for construction and clustering of clonotype lineages for
 ```
 # load package
 library(LRT)
-library(slingshot)
-library(tidyverse)
-library(Seurat)
-library(TrajectoryUtils)
 
 # load data
 TCR <-read.csv('/path/to/scTCR-seq/TCR.csv')   # scTCR-seq data
@@ -40,7 +36,8 @@ load('Mice.sub.rda')  # seurat object, with clustering labels and UMAP
 Combined <-getCombinedDataSet(TCR,Mice.sub)
 
 # use shinyClone to intuitively explore the distribution of clonotype
-shinyClone(Combined)  
+G.df <- getShinyInput(Combined)
+shinyClone(G.df)  
 
 # infer trajectory
 ## it is advised to specify the starting cluster, in this example data we choose 'Tcmp'
@@ -52,8 +49,6 @@ lrtLineages(Trajectory)[[1]]
 # check the parameters used for lineage inference
 lrtParams(Trajectory) 
 
-# prepare input for shinyClust
-G.df <- getShinyInput(Combined)
 
 #  lineage clustering analysis
 shinyClust(Trajectory,G.df)
