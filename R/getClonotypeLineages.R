@@ -32,6 +32,7 @@
 #' @import TrajectoryUtils
 #' @import progress
 #' @import SingleCellExperiment
+#' @import tibble
 #'
 #' @examples
 #' TCR <-read.csv('/PATH/TO/YOUR/scTCR-seqData/',header=T)
@@ -103,7 +104,7 @@ setMethod(f = 'getClonotypeLineages',
 	
 	t <- lapply(df,function(x) x%>%group_split(Lineage)) # some MST may contain multiple lineages, here split
 	t <- unlist(t,recursive=FALSE)
-	t <- lapply(t,function(x) column_to_rownames(x, var = "Cluster"))	
+	t <- lapply(t,function(x) tibble::column_to_rownames(x, var = "Cluster"))	
 	temp <-lapply(t, function(x) x[,1:2])
 
 	
