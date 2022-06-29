@@ -1,9 +1,15 @@
+#' display the distribution of clonotype on UMAP
+#' @param df a dataframe obtained from \code{getShinyinput}
+#' @return shiny app
+#' @export
+#' @import Seurat
+#' @import dplyr
+#' @import DT
+#' @import ggplot2
+
 shinyClone <- function(G.df =NULL){
 
-# load libraries
-	library(Seurat)
-	library(dplyr)
-	library(DT)
+
 # extract needed information
   if(FALSE){
 	UMAP1 <- CombinedDataSet@seurat@reductions$umap@cell.embeddings[,1]
