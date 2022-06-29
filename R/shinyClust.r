@@ -1,3 +1,14 @@
+#' cluster inferred clonotype trajectory
+#' @param df a dataframe obtained from \code{getShinyInput}
+#' @param trajectory a \code{TrajectoryDataSet} object
+#'
+#' @export
+#' @import dplyr
+#' @import shiny
+#' @import shinyBS
+#' @importFrom dtwclust tsclust
+#' @import ggplot2
+
 shinyClust <- function(TrajectoryDataSet = NULL, G.df = NULL){
 
 # load libraries
@@ -106,8 +117,8 @@ ui <- fluidPage(
 		## clustering 
 			clusterRST <- reactive({
 				switch(input$clustertype,
-					'Hierarchical' = tsclust(df,type='h',k=k(),seed=seed(),control=hierarchical_control(method=method())),
-					'Partitional' = tsclust(df,type='p',k=k(),seed=seed(),iter.max=itermax(),centroid=centroid())
+					'Hierarchical' = dtwclust::tsclust(df,type='h',k=k(),seed=seed(),control=hierarchical_control(method=method())),
+					'Partitional' = dtwclust::tsclust(df,type='p',k=k(),seed=seed(),iter.max=itermax(),centroid=centroid())
 			
 				)
 			})
