@@ -31,6 +31,7 @@
 #' @import cluster
 #' @import TrajectoryUtils
 #' @import progress
+#' @import SingleCellExperiment
 #'
 #' @examples
 #' TCR <-read.csv('/PATH/TO/YOUR/scTCR-seqData/',header=T)
@@ -76,9 +77,10 @@ setMethod(f = 'getClonotypeLineages',
 		}else{temp2 <- data.frame()}
  
 		if(dim(temp2)[2]>3 & length(unique(temp2$clusters))>1){
-			sce <- as.SingleCellExperiment(temp2,assay='RNA')
+			sce <- Seurat::as.SingleCellExperiment(temp2,assay='RNA')
+			CLUSTERS <- SingleCellExperiment::colData(sce)$clusters
 			sce <- slingshot::getLineages(sce, reducedDim = 'UMAP',use.median = use.median, 
-					clusterLabels = colData(sce)$clusters,
+					clusterLabels = CLUSTERS,
                      start.clus = start.clus, dist.method= dist.method)
 			df[[i]] <- slingMST(sce,as.df=TRUE)
 			df[[i]]$clone <-CLONE[i]
