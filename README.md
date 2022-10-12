@@ -18,7 +18,7 @@ devtools::install_github('JuanXie19/LRT')
 https://juanxie19.github.io/vignette.html
 ## Requirements
 
-The `LRT` package has multiple dependencies, including `slingshot`, `tibble`,`Seurat`,`dtwclust`,`ggplot2`, and so on. For complete list of dependencies, please refer to the DESCRIPTION file of the package.
+The `LRT` package has multiple dependencies, including `slingshot`, `SingleCellExperiment`,`tradeSeq`,`Seurat`,`dtwclust`,`ggplot2`, and so on. For complete list of dependencies, please refer to the DESCRIPTION file of the package.
 
 ## Usage
 
@@ -30,16 +30,15 @@ library(LRT)
 
 # load data
 TCR <-read.csv('/path/to/scTCR-seq/TCR.csv')   # scTCR-seq data
-load('Mice.sub.rda')  # seurat object, with clustering labels and UMAP
+load('Mice.sub2.rda')  # seurat object, with clustering labels and UMAP
 
 # combine TCR and scRNA-seq data
 Combined <-getCombinedDataSet(TCR,Mice.sub)
 
 # use shinyClone to intuitively explore the distribution of clonotype
-G.df <- getShinyInput(Combined)
-shinyClone(G.df)  
+shinyClone(Combined)  
 
-# infer trajectory
+# infer clonotype-level trajectory
 ## it is advised to specify the starting cluster, in this example data we choose 'Tcmp'
 Trajectory <- getClonotypeLineages(Combined,start.clus = 'Tcmp', end.clus = NULL, dist.method = 'simple', use.median = TRUE)
 
@@ -50,8 +49,8 @@ lrtLineages(Trajectory)[[1]]
 lrtParams(Trajectory) 
 
 
-#  lineage clustering analysis
-shinyClust(Trajectory,G.df)
+#  trajectory clustering and DE genes identification
+shinyClust(Trajectory,Combined)
 
 ```
 
