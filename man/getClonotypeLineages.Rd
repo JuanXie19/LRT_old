@@ -19,8 +19,7 @@ getClonotypeLineages(CombinedDataSet, ...)
 \arguments{
 \item{CombinedDataSet}{The \code{CombinedDataSet} object obtained from \code{getCombinedDataSet}}
 
-\item{...}{Additional arguments to specify how lineages are constructed from
-clusters.}
+\item{...}{Additional arguments to specify how lineages are constructed from clusters}
 
 \item{start.clus}{(optional) character, indicates the starting cluster(s)
 from which lineages will be drawn.}

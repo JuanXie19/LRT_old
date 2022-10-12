@@ -21,11 +21,11 @@ This function attaches the immune receptor information to metadata of the seurat
 \details{
 The input scTCR-seq needs to be a data frame, and alpha chain and beta chain need to be paired.
  If you have multiple sets of scTCR-seq from more than one sample, the data needs to be combined into a single data frame.
-	It should contain a column named 'cell.id' and a cloumn named 'cdr3'. The 'cell.id' column corresponds to the cell barcodes(potentially prefixed with sample name).
+	It should contain a column named 'barcode' and a cloumn named 'cdr3'. The 'barcode' column corresponds to the cell barcodes(potentially prefixed with sample name).
  The 'cdr3' column holds the scTCR-seq information for cells. You are free to provide any related information that can be used to define a clonotype.
  For instance, you can put CDR3 alpha chain, or beta chain, or paired alpha-beta chain amino acid/nuleotide sequence in this column.
 
-The seurat object must contain clustering results saved as 'clusters', and must have cell barcodes saved as 'cell.id'.
+The seurat object must contain clustering results saved as 'clusters', and must have cell barcodes saved as 'barcode'.
 #'  The barcodes from scTCR-seq data and seurat object must have the same naming style. For instance, if barcodes from seurat/scTCR-seq are prefixed with sample name, then the barcodes from scTCR-seq/seurat must also have prefix.
 }
 \examples{

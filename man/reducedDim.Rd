@@ -3,9 +3,6 @@
 \name{reducedDim}
 \alias{reducedDim}
 \title{extract the UMAP coordinates from CombinedDatSet}
-\usage{
-reducedDim(CombinedDataSet, ...)
-}
 \arguments{
 \item{CombinedDataSet}{}
 }
