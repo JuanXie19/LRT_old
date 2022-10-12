@@ -31,8 +31,8 @@
 #' @import cluster
 #' @import TrajectoryUtils
 #' @import progress
-#' @import SingleCellExperiment
 #' @import tibble
+#' @import SingleCellExperiment
 #'
 #' @examples
 #' TCR <-read.csv('/PATH/TO/YOUR/scTCR-seqData/',header=T)

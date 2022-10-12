@@ -1,16 +1,3 @@
-# accesor methods
-#' @describeIn CombinedDataSet returns the matrix representing the reduced
-#'  dimensional dataset,i.e., UMAP coordinates
-#' @param combined a \code{CombinedDataSet} object
-#' @import Seurat
-#' @export
-setMethod(
-	f = 'reducedDim',
-	signature = 'CombinedDataSet',
-	definition = function(CombinedDataSet) CombinedDataSet@seurat@reductions$umap@cell.embeddings
-
-)
-
 #' @rdname seuratClusterLabels
 #' @import Seurat
 #' @export

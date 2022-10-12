@@ -30,8 +30,7 @@ setGeneric(
 #' @name getClonotypeLineages
 #'
 #' @param CombinedDataSet The \code{CombinedDataSet} object obtained from \code{getCombinedDataSet}
-#' @param ... Additional arguments to specify how lineages are constructed from
-#'   clusters.
+#' @param ... Additional arguments to specify how lineages are constructed from clusters
 #' @export
 setGeneric(
     name = "getClonotypeLineages",
@@ -40,6 +39,7 @@ setGeneric(
         standardGeneric("getClonotypeLineages")
     }
 )
+
 
 
 #' @title prepare the input for shiny apps
@@ -57,6 +57,8 @@ setGeneric(
     }
 )
 
+
+if(FALSE){
 #' @title extract the UMAP coordinates from CombinedDatSet
 #' @name reducedDim
 #'
@@ -70,6 +72,7 @@ setGeneric(
         standardGeneric("reducedDim")
     }
 )
+}
 
 #' @title extract the seurat cell cluster labels from CombinedDataSet
 #' @name seuratClusterLabels
